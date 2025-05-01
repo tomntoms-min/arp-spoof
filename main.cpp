@@ -9,7 +9,7 @@
 #include <arpa/inet.h>  
 #include <csignal>      
 #include <vector>       
-// 패킷 구조체 - 1바이트 정렬로 패딩 없음
+
 #pragma pack(push, 1)
 struct EthArpPacket {
     EthHdr eth_;  // 이더넷 헤더
@@ -17,7 +17,6 @@ struct EthArpPacket {
 };
 #pragma pack(pop)
 
-// 양방향 스푸핑을 위한 플로우 구조체 정의
 struct Flow {
     Ip sender_ip;        // 공격 대상 IP
     Ip target_ip;        // 위장할 대상 IP
@@ -25,13 +24,11 @@ struct Flow {
     Mac target_mac;      // 위장할 대상 MAC
 };
 
-// 전역 변수 선언
 pcap_t* handle;            // 패킷 캡처 핸들
 Mac my_mac;                // 공격자 MAC 주소
 std::vector<Flow> flows;   // 동적 크기 플로우 저장 (std::vector 사용)
 volatile bool running = true;  // 프로그램 종료 제어 플래그
 
-// 시그널 핸들러 - Ctrl+C로 프로그램 안전하게 종료
 void signal_handler(int sig) {
     if (sig == SIGINT) {
         printf("\n[*] 인터럽트 신호 수신, 정리 중...\n");
@@ -39,13 +36,11 @@ void signal_handler(int sig) {
     }
 }
 
-// 프로그램 사용법 출력 함수
 void usage() {
     printf("syntax : arp-spoof <interface> <sender ip 1> <target ip 1> [<sender ip 2> <target ip 2>...]\n");
     printf("sample : arp-spoof wlan0 192.168.10.2 192.168.10.1 192.168.10.1 192.168.10.2\n");
 }
 
-// ARP 패킷 전송 함수
 int send_arp_packet(Mac dst_mac, Mac src_mac, Mac target_mac, Ip src_ip, Ip target_ip, bool is_request) {
     EthArpPacket packet;
 
