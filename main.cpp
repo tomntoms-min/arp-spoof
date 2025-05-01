@@ -6,10 +6,9 @@
 #include <sys/ioctl.h>
 #include <net/if.h>
 #include <ctime>
-#include <arpa/inet.h>  // htonl, ntohl 함수 사용을 위한 헤더
-#include <csignal>      // 시그널 처리를 위한 헤더
-#include <vector>       // std::vector 사용을 위한 헤더
-
+#include <arpa/inet.h>  
+#include <csignal>      
+#include <vector>       
 // 패킷 구조체 - 1바이트 정렬로 패딩 없음
 #pragma pack(push, 1)
 struct EthArpPacket {
