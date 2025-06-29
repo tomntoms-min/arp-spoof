@@ -52,8 +52,8 @@ int send_arp_packet(Mac dst_mac, Mac src_mac, Mac target_mac, Ip src_ip, Ip targ
     // ARP 헤더 설정
     packet.arp_.hrd_ = htons(ArpHdr::ETHER);    // 하드웨어 타입: 이더넷
     packet.arp_.pro_ = htons(EthHdr::Ip4);      // 프로토콜 타입: IPv4
-    packet.arp_.hln_ = Mac::SIZE;               // 하드웨어 주소 길이: 6바이트
-    packet.arp_.pln_ = Ip::SIZE;                // 프로토콜 주소 길이: 4바이트
+    packet.arp_.hln_ = Mac::size;               // 하드웨어 주소 길이: 6바이트
+    packet.arp_.pln_ = Ip::size;                // 프로토콜 주소 길이: 4바이트
     
     // ARP 요청 또는 응답 설정
     packet.arp_.op_ = htons(is_request ? ArpHdr::Request : ArpHdr::Reply);
